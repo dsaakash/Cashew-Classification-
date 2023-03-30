@@ -1,0 +1,144 @@
+first command to install tf-serving :
+
+
+docker pull tensorflow/serving
+
+
+
+
+then got to powershell
+
+
+type command 
+
+to create an vm
+
+
+docker run -it -v  C:\Users\USER\Desktop\CashewClassification_model:/CashewClassification_model -p 8505:8505 --entrypoint /bin/bash tensorflow/serving
+
+
+
+here path of directory : C:\Users\USER\Desktop\CashewClassification_model:/CashewClassification_model
+
+
+
+
+root@1730716d52f6:/# pwd
+/
+root@1730716d52f6:/# ll
+total 68
+drwxr-xr-x   1 root root 4096 Mar 30 09:36  ./
+drwxr-xr-x   1 root root 4096 Mar 30 09:36  ../
+-rwxr-xr-x   1 root root    0 Mar 30 09:36  .dockerenv*
+drwxr-xr-x   2 root root 4096 Mar 30 09:36 'C:\Users\USER\Desktop\CashewClassification_model'/
+lrwxrwxrwx   1 root root    7 Mar  8 02:05  bin -> usr/bin/
+drwxr-xr-x   2 root root 4096 Apr 15  2020  boot/
+drwxr-xr-x   5 root root  360 Mar 30 09:36  dev/
+drwxr-xr-x   1 root root 4096 Mar 30 09:36  etc/
+drwxr-xr-x   2 root root 4096 Apr 15  2020  home/
+lrwxrwxrwx   1 root root    7 Mar  8 02:05  lib -> usr/lib/
+lrwxrwxrwx   1 root root    9 Mar  8 02:05  lib32 -> usr/lib32/
+lrwxrwxrwx   1 root root    9 Mar  8 02:05  lib64 -> usr/lib64/
+lrwxrwxrwx   1 root root   10 Mar  8 02:05  libx32 -> usr/libx32/
+drwxr-xr-x   2 root root 4096 Mar  8 02:06  media/
+drwxr-xr-x   2 root root 4096 Mar  8 02:06  mnt/
+drwxr-sr-x   2 root root 4096 Mar 29 00:38  models/
+drwxr-xr-x   2 root root 4096 Mar  8 02:06  opt/
+dr-xr-xr-x 288 root root    0 Mar 30 09:36  proc/
+drwx------   2 root root 4096 Mar  8 02:09  root/
+drwxr-xr-x   5 root root 4096 Mar  8 02:09  run/
+lrwxrwxrwx   1 root root    8 Mar  8 02:05  sbin -> usr/sbin/
+drwxr-xr-x   2 root root 4096 Mar  8 02:06  srv/
+dr-xr-xr-x  11 root root    0 Mar 30 09:36  sys/
+drwxrwxrwt   1 root root 4096 Mar 29 00:38  tmp/
+drwxr-xr-x   1 root root 4096 Mar  8 02:06  usr/
+drwxr-xr-x   1 root root 4096 Mar  8 02:09  var/
+
+
+
+
+
+tensorflow_model_server --rest_api_port=8505 --model_name=CashewClassification_model --model_base_path=/CashewClassification_model/saved_models/
+
+
+
+ tensorflow_model_server --rest_api_port=8505 --model_name=CashewClassification_model --model_base_path=/CashewClassification_model/saved_models/
+
+
+
+
+
+by using google chrome :
+paste url:
+http://localhost:8505/v1/models/CashewClassification_model
+
+you will get response like this 
+
+
+{
+ "model_version_status": [
+  {
+   "version": "2",
+   "state": "AVAILABLE",
+   "status": {
+    "error_code": "OK",
+    "error_message": ""
+   }
+  }
+ ]
+}
+
+
+
+
+
+ tensorflow_model_server --rest_api_port=8505 --model_config_file=/CashewClassification_model/models.config.a --allow_version_labels_for_unavailable_models
+
+
+
+
+http://localhost:8505/v1/models/CashewClassification_model/labels/production:predict
+
+
+
+then i went to git bash and installed split folders to generate train test val dataset
+
+
+$ pip install split-folders
+Collecting split-folders
+  Downloading split_folders-0.5.1-py3-none-any.whl (8.4 kB)
+Installing collected packages: split-folders
+Successfully installed split-folders-0.5.1
+
+USER@DESKTOP-CTUSUET MINGW64 ~
+$ cd Desktop/C
+CH341SER/                   cashew_images.zip
+CH341SER.zip                cashewclassification.h5
+CV/                         cctml/
+CashewClassification_model/ classification/
+cars/                       classification.zip
+cashew/                     converted_keras/
+cashew_images/              conveyr_1/
+
+USER@DESKTOP-CTUSUET MINGW64 ~
+$ cd Desktop/C
+CH341SER/                   cashew_images.zip
+CH341SER.zip                cashewclassification.h5
+CV/                         cctml/
+CashewClassification_model/ classification/
+cars/                       classification.zip
+cashew/                     converted_keras/
+cashew_images/              conveyr_1/
+
+USER@DESKTOP-CTUSUET MINGW64 ~
+$ cd Desktop/CashewClassification_model/
+
+USER@DESKTOP-CTUSUET MINGW64 ~/Desktop/CashewClassification_model (main)
+$ ls
+AI_Model.model/  cashewclassification.h5  models.config.b  training.ipynb
+Untitled.ipynb   images/                  models.config.d  url_servers.txt
+api/             models.config.a          saved_models/
+
+USER@DESKTOP-CTUSUET MINGW64 ~/Desktop/CashewClassification_model (main)
+$ split_folders --output dataset --ratio .7 .1 .2 -- images
+
