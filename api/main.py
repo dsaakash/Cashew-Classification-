@@ -10,21 +10,9 @@ import tensorflow as tf
 
 app = FastAPI()
 
-# origins = [
-#     "http://localhost",
-#     "http://localhost:3000",
-# ]
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
 MODEL = tf.keras.models.load_model("./saved_models/2")
 
-CLASS_NAMES = ["180", "240", "320","400"]
+CLASS_NAMES = ["180", "240", "320","400","blank","reject"]
 
 @app.get("/ping")
 async def ping():
